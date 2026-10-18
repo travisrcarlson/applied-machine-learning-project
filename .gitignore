@@ -1,0 +1,16 @@
+# Python environment and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local test copies of the executed notebook
+executed_*.ipynb
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
