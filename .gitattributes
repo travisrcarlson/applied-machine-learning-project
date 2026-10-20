@@ -1,3 +1,4 @@
-# Keep Parquet files byte-for-byte as committed, so the notebook's SHA-256
-# check matches on every operating system.
+# Keep the data files byte-for-byte as committed (no line-ending conversion),
+# so the notebook's SHA-256 check matches on every operating system.
+*.csv binary
 *.parquet binary

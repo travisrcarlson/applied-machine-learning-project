@@ -9,7 +9,8 @@ Tested on each municipality in turn after training on the other 14, neither mode
 
 ## What's in this repository
 - `modeling.ipynb`: the problem and data, loading and checks, exploration, preprocessing, the evaluation design, training and testing on held-out municipalities, the results, a check with one random split, the logistic regression's weights, and a summary.
-- `landmine_detection.parquet`: the dataset's data file, unchanged.
+- `landmine_detection.csv`: the dataset as a CSV file, the file the notebook loads.
+- `landmine_detection.parquet`: the dataset's original data file, unchanged; the CSV was made from it.
 - `figures/`: the six charts, written by the notebook.
 - `Machine_Learning_Analysis_Report.pdf` and `module_summary.pdf`: the report. The two files are identical; the brief uses both names.
 - `requirements.txt`: the Python environment, from `pip freeze`.
@@ -17,8 +18,9 @@ Tested on each municipality in turn after training on the other 14, neither mode
 ## Dataset
 *Landmine Detection in Antioquia, Colombia*, by mdulcer10 on Hugging Face: https://huggingface.co/datasets/mdulcer10/landmine-detection. It was published with the RELand study of landmine risk in Colombia (Dulce Rubio et al., 2024, https://doi.org/10.1145/3648437).
 
-- Snapshot: `landmine_detection.parquet`, the dataset's only data file (`data/train-00000-of-00001.parquet` at revision `30710e43dc447ee95bce30e9ed264f68e454e00c`), downloaded on 2026-10-18; SHA-256 `e18e6a278cc62336ff13a68342f5d8a848aebb5e4b35e0cc64dc654160090337`. The notebook checks the checksum when it loads the file.
-- Licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The Parquet file is shared here unchanged under that licence.
+- Snapshot: `landmine_detection.parquet`, the dataset's only data file (`data/train-00000-of-00001.parquet` at revision `30710e43dc447ee95bce30e9ed264f68e454e00c`), downloaded on 2026-10-18; SHA-256 `e18e6a278cc62336ff13a68342f5d8a848aebb5e4b35e0cc64dc654160090337`.
+- CSV: `landmine_detection.csv`, made from the Parquet file with pandas 3.0.6, with no change to any row, column or value: `pd.read_parquet("landmine_detection.parquet").to_csv("landmine_detection.csv", index=False, lineterminator="\n")`; SHA-256 `f2ba3b981487ae3879175db4521bc1c6d02352d1053dc9889715eb5e703fe371`. The notebook checks this checksum, then loads the CSV with `pd.read_csv(..., float_precision="round_trip")`, which reads every value exactly as it is in the Parquet file. `.gitattributes` marks both data files as binary, so Git never changes them and the checksums match on every operating system.
+- Licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Both files are shared here under that licence: the Parquet file unchanged, and the CSV converted from it with no other change.
 - Source: Hugging Face is not one of the sources the project brief lists. I used this dataset because it is the published data of a peer-reviewed study, with a licence and a recommended testing protocol, and its labels come from the records of Colombia's national mine action authority (AICMA).
 - Coordinates: the file gives each cell's latitude and longitude. The notebook uses them once, to check for repeated cells and to count neighbouring mine cells, and then drops them; no model, chart or table uses them.
 - Use: the dataset card warns that predictions should not be "the sole basis for demining operations without expert human review and validation in the field". These models should not be used on their own, only as an efficiency aid that orders survey, and no land should be cancelled or released on a model score. Before a model set the order of survey in the field, it would have to show a reasonable confidence level and then be tried for a period, demonstrating that deployment teams were actually more efficient.
